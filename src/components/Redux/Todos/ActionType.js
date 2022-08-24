@@ -4,3 +4,6 @@ export const CLEARCOMPPLETED = "todos/clearCompleted";
 export const COLORSELECTED = "todos/colorSelected";
 export const TOGGLE = "todos/toggle";
 export const DELETED = "todos/delete";
+export const ISEDITABLE = "todos/isEditable";
+export const UPDATEDVALUE = "todos/updatedValue";
+export const LOADED = "todos/loaded";

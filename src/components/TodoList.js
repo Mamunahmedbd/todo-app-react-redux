@@ -1,24 +1,21 @@
 import Todo from "./Todo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import MainLayout from "./MainLayout";
+import { useEffect } from "react";
+import fetchTodos from "./Redux/Todos/Thunk/FetchTodos";
 
 export default function TodoList() {
+  const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos);
   const filters = useSelector((state) => state.filters);
+  useEffect(() => {
+    dispatch(fetchTodos);
+  }, [dispatch]);
   console.log(todos);
   return (
-    <div className="mt-2 text-gray-700 text-sm max-h-[300px] overflow-y-auto">
+    <MainLayout>
       {todos
-        .filter((todo) => {
-          const { status } = filters;
-          switch (status) {
-            case "Complete":
-              return todo.completed;
-            case "Incomplete":
-              return !todo.completed;
-            default:
-              return true;
-          }
-        })
+        .filter((todo) => !todo.completed)
         .filter((todo) => {
           const { colors } = filters;
           if (colors.length > 0) {
@@ -29,6 +26,6 @@ export default function TodoList() {
         .map((todo) => (
           <Todo key={todo.id} id={todo.id} {...todo} />
         ))}
-    </div>
+    </MainLayout>
   );
 }
