@@ -4,7 +4,10 @@ import {
   CLEARCOMPPLETED,
   COLORSELECTED,
   DELETED,
+  ISEDITABLE,
+  LOADED,
   TOGGLE,
+  UPDATEDVALUE,
 } from "./ActionType";
 
 import initialState from "./intialState";
@@ -16,6 +19,8 @@ const nextTodoId = (todos) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOADED:
+      return action.payload;
     case ADDED:
       return [
         ...state,
@@ -23,10 +28,17 @@ const reducer = (state = initialState, action) => {
           id: nextTodoId(state),
           text: action.payload,
           completed: false,
+          isEditable: false,
         },
       ];
 
     case TOGGLE:
+      return state.map((todo) =>
+        todo.id === action.payload
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      );
+    case ISEDITABLE:
       return state.map((todo) => {
         if (todo.id !== action.payload) {
           return todo;
@@ -34,7 +46,19 @@ const reducer = (state = initialState, action) => {
 
         return {
           ...todo,
-          completed: !todo.completed,
+          isEditable: !todo.isEditable,
+        };
+      });
+    case UPDATEDVALUE:
+      const { ide, text } = action.payload;
+      return state.map((todo) => {
+        if (todo.id !== ide) {
+          return todo;
+        }
+        return {
+          ...todo,
+          text: text,
+          isEditable: !todo.isEditable,
         };
       });
 

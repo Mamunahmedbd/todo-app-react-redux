@@ -5,6 +5,9 @@ import {
   ALLCOMPLETED,
   COLORSELECTED,
   DELETED,
+  ISEDITABLE,
+  UPDATEDVALUE,
+  LOADED,
 } from "./ActionType";
 
 export const added = (todoText) => {
@@ -26,6 +29,13 @@ export const deleted = (todoId) => {
   };
 };
 
+export const getFetchTodos = (todos) => {
+  return {
+    type: LOADED,
+    payload: todos,
+  };
+};
+
 export const selectColor = (id, color) => {
   return {
     type: COLORSELECTED,
@@ -44,5 +54,22 @@ export const allCompleted = () => {
 export const clearCompleted = () => {
   return {
     type: CLEARCOMPPLETED,
+  };
+};
+
+export const isEditabled = (id) => {
+  return {
+    type: ISEDITABLE,
+    payload: id,
+  };
+};
+
+export const updatedValue = (ide, text) => {
+  return {
+    type: UPDATEDVALUE,
+    payload: {
+      ide,
+      text,
+    },
   };
 };
